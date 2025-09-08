@@ -3,6 +3,7 @@ package controllers
 import (
 	"context"
 
+	"github.com/drumont/connect-haproxy-operator/internal/haproxy"
 	networkingv1 "k8s.io/api/networking/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -42,6 +43,7 @@ func (r *IngressReconciler) SetupWithManager(mgr ctrl.Manager) error {
 			CreateFunc: func(e event.TypedCreateEvent[client.Object]) bool {
 				log := mgr.GetLogger().WithName("ingress-predicate")
 				log.Info("Ingress create event", "name", e.Object.GetName())
+				haproxy.ReconcileIngress("kubernetes")
 				return true
 			},
 			UpdateFunc: func(e event.TypedUpdateEvent[client.Object]) bool {
