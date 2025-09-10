@@ -27,5 +27,7 @@ func ReconcileIngress(backendName string) {
 
 	if backend == (Backend{}) {
 		log.Print("No backend found. Take action to create it")
+		CreateBackend()
 	}
+
 }
